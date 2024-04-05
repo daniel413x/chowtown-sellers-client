@@ -18,7 +18,7 @@ function MainLayout({
     >
       <Header />
       {noContainer ? children : (
-        <div className="container mx-auto flex-1 py-10 flex">
+        <div className="container mx-auto flex-1 py-10">
           {children}
         </div>
       )}

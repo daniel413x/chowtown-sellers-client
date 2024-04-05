@@ -1,8 +1,21 @@
 export interface User {
   _id: string;
   email: string;
+}
+
+export interface MenuItem {
   name: string;
-  addressLineOne: string;
+  price: number;
+}
+
+export interface Restaurant {
+  _id: string;
+  restaurantName: string;
+  imageUrl: string;
   city: string;
   country: string;
+  deliveryPrice: number;
+  estimatedDeliveryTime: number;
+  cuisines: string[];
+  menuItems: MenuItem[];
 }

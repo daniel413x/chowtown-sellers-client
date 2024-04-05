@@ -1,47 +1,102 @@
+import LoadingButton from "@/components/ui/common/LoadingButton";
+import { Button } from "@/components/ui/common/shadcn/button";
 import {
   Form,
 } from "@/components/ui/common/shadcn/form";
-import { User } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import DetailsSection from "./DetailsSection";
 
 const formSchema = z.object({
-  name: z.string().min(1, {
+  restaurantName: z.string().min(1, {
     message: "Name is required",
   }),
+  imageUrl: z.string().min(1, {
+    message: "Image url is required",
+  }),
+  city: z.string().min(1, {
+    message: "City is required",
+  }),
+  country: z.string().min(1, {
+    message: "City is required",
+  }),
+  deliveryPrice: z.coerce.number({
+    required_error: "Delivery price is required",
+    invalid_type_error: "Delivery price must be a number",
+  }),
+  estimatedDeliveryTime: z.coerce.number({
+    required_error: "Estimated delivery time is required",
+    invalid_type_error: "Estimated delivery time must be a number",
+  }),
+  cuisines: z.array(z.string()).nonempty({
+    message: "Cuisines are required",
+  }),
+  menuItems: z.array(z.object({
+    name: z.string().min(1, {
+      message: "Name is required",
+    }),
+    price: z.coerce.number({
+      required_error: "Price is required",
+      invalid_type_error: "Price must be a number",
+    }),
+  })),
 });
 
-type UserFormData = z.infer<typeof formSchema>;
+export type RestaurantFormData = z.infer<typeof formSchema>;
 
-interface ManageRestaurantPageProps {
-  onSave: (userProfileData: UserFormData) => void;
-  user: User;
+interface ManageRestaurantFormProps {
+  onSave: (restaurantFormData: RestaurantFormData) => void;
+  isLoading: boolean;
 }
 
-function ManageRestaurantPage({
+function ManageRestaurantForm({
   onSave,
-  user,
-}: ManageRestaurantPageProps) {
-  const form = useForm<UserFormData>({
+  isLoading,
+}: ManageRestaurantFormProps) {
+  console.log(onSave);
+  const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.name,
+      cuisines: ["Italian", "Mexican"],
+      menuItems: [
+        {
+          name: "Sandwich",
+          price: 10,
+        },
+      ],
+      restaurantName: "My restaurant",
+      imageUrl: "https://cloudinary.com/",
+      city: "Bethesda, Maryland",
+      country: "United States",
     },
   });
   const { handleSubmit } = form;
+  const onSubmit = () => {
+    // TODO - implement
+  };
   return (
     <Form
       {...form}
     >
       <form
-        onSubmit={handleSubmit(onSave)}
-        className="space-y-4 bg-gray-50 rounded-lg md:p-10"
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-8 bg-gray-50 p-10 rounded-lg"
       >
-        Form
+        <DetailsSection />
+        {isLoading ? (
+          <LoadingButton />
+        ) : (
+          <Button
+            className="bg-orange-500"
+            type="submit"
+          >
+            Submit
+          </Button>
+        )}
       </form>
     </Form>
   );
 }
 
-export default ManageRestaurantPage;
+export default ManageRestaurantForm;

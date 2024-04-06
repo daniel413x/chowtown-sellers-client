@@ -1,0 +1,15 @@
+label {
+  font-weight: 700 !important;
+}
+
+input {
+  color: #000 !important;
+}
+
+.fields {
+  @apply pt-4 px-4 space-y-2;
+}
+
+.sectionHeader {
+  @apply text-2xl font-bold;
+}

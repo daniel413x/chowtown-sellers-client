@@ -17,21 +17,6 @@ const links = [
     label: "Restaurant",
     icon: <Building className="w-4 h-4" />,
   },
-  {
-    to: `/${MANAGE_RESTAURANT_ROUTE}`,
-    label: "Restaurant",
-    icon: <Building className="w-4 h-4" />,
-  },
-  {
-    to: `/${MANAGE_RESTAURANT_ROUTE}`,
-    label: "Restaurant",
-    icon: <Building className="w-4 h-4" />,
-  },
-  {
-    to: `/${MANAGE_RESTAURANT_ROUTE}`,
-    label: "Restaurant",
-    icon: <Building className="w-4 h-4" />,
-  },
 ];
 
 interface MainNavProps {

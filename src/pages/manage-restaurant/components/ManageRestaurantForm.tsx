@@ -6,7 +6,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Separator } from "@/components/ui/common/shadcn/separator";
+import { Settings } from "lucide-react";
+import { cn } from "@/lib/utils";
 import DetailsSection from "./DetailsSection";
+import CuisinesSection from "./CuisinesSection";
+import formStyles from "./FormStyles.module.css";
 
 const formSchema = z.object({
   restaurantName: z.string().min(1, {
@@ -81,14 +86,22 @@ function ManageRestaurantForm({
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-8 bg-gray-50 p-10 rounded-lg"
+        className="space-y-8  p-10 rounded-lg "
       >
+        <div className="flex space-between items-center">
+          <h1 className={cn(formStyles.sectionHeader, "flex-1")}>
+            My Restaurant
+          </h1>
+          <Settings />
+        </div>
         <DetailsSection />
+        <Separator />
+        <CuisinesSection />
+        <Separator />
         {isLoading ? (
           <LoadingButton />
         ) : (
           <Button
-            className="bg-orange-500"
             type="submit"
           >
             Submit

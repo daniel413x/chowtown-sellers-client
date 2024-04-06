@@ -11,6 +11,7 @@ import { Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import DetailsSection from "./DetailsSection";
 import CuisinesSection from "./CuisinesSection";
+import MenuItemsSection from "./MenuItemsSection";
 import formStyles from "./FormStyles.module.css";
 
 const formSchema = z.object({
@@ -98,6 +99,7 @@ function ManageRestaurantForm({
         <Separator />
         <CuisinesSection />
         <Separator />
+        <MenuItemsSection />
         {isLoading ? (
           <LoadingButton />
         ) : (

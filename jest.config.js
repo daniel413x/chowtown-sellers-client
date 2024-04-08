@@ -31,7 +31,7 @@ export default {
     ],
   },
   moduleNameMapper: {
-    "\\.(jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/src/test/__mocks__/fileMock.js",
+    "\\.(jpg|jpeg|png|gif|webp|svg|module.css)$": "<rootDir>/src/test/__mocks__/fileMock.js",
     '^@/(.*)': '<rootDir>/src/$1'
   },
 };

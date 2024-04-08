@@ -8,11 +8,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/common/shadcn/separator";
 import { Settings } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, intToPrice, menuItemsWithDecimalPrice } from "@/lib/utils";
+import { Restaurant } from "@/lib/types";
+import { useEffect } from "react";
 import DetailsSection from "./DetailsSection";
 import CuisinesSection from "./CuisinesSection";
 import MenuItemsSection from "./MenuItemsSection";
 import formStyles from "./FormStyles.module.css";
+import ImageSection from "./ImageSection";
 
 const formSchema = z.object({
   restaurantName: z.string().min(1, {
@@ -52,42 +55,55 @@ const formSchema = z.object({
 export type RestaurantFormData = z.infer<typeof formSchema>;
 
 interface ManageRestaurantFormProps {
-  onSave: (restaurantFormData: RestaurantFormData) => void;
+  updateMyRestaurant: (formData: RestaurantFormData) => void;
   isLoading: boolean;
+  restaurant: Restaurant;
 }
 
 function ManageRestaurantForm({
-  onSave,
+  restaurant,
   isLoading,
+  updateMyRestaurant,
 }: ManageRestaurantFormProps) {
-  console.log(onSave);
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      cuisines: ["Italian", "Mexican"],
-      menuItems: [
-        {
-          name: "Sandwich",
-          price: 10,
-        },
-      ],
-      restaurantName: "My restaurant",
-      imageUrl: "https://cloudinary.com/",
-      city: "Bethesda, Maryland",
+      cuisines: [],
+      menuItems: [],
+      restaurantName: "My Restaurant",
+      imageUrl: "",
+      city: "Dallas",
       country: "United States",
+      deliveryPrice: 10,
+      estimatedDeliveryTime: 30,
     },
   });
   const { handleSubmit } = form;
-  const onSubmit = () => {
-    // TODO - implement
+  const onSubmit = (formData: RestaurantFormData) => {
+    updateMyRestaurant(formData);
   };
+  useEffect(() => {
+    const deliveryPrice = intToPrice(restaurant.deliveryPrice);
+    const menuItems = menuItemsWithDecimalPrice(restaurant.menuItems);
+    const latestRestaurant = {
+      cuisines: restaurant.cuisines,
+      menuItems,
+      restaurantName: restaurant.restaurantName,
+      imageUrl: restaurant.imageUrl,
+      city: restaurant.city,
+      country: restaurant.country,
+      deliveryPrice,
+      estimatedDeliveryTime: restaurant.estimatedDeliveryTime,
+    };
+    form.reset(latestRestaurant);
+  }, [form, restaurant]);
   return (
     <Form
       {...form}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-8  p-10 rounded-lg "
+        className="space-y-8 p-10 rounded-lg "
       >
         <div className="flex space-between items-center">
           <h1 className={cn(formStyles.sectionHeader, "flex-1")}>
@@ -100,6 +116,8 @@ function ManageRestaurantForm({
         <CuisinesSection />
         <Separator />
         <MenuItemsSection />
+        <Separator />
+        <ImageSection />
         {isLoading ? (
           <LoadingButton />
         ) : (

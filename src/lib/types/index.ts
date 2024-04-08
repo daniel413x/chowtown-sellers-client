@@ -10,6 +10,7 @@ export interface MenuItem {
 
 export interface Restaurant {
   _id: string;
+  userId: string;
   restaurantName: string;
   imageUrl: string;
   city: string;
@@ -18,4 +19,5 @@ export interface Restaurant {
   estimatedDeliveryTime: number;
   cuisines: string[];
   menuItems: MenuItem[];
+  lastUpdated: string;
 }

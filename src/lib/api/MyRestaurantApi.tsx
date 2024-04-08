@@ -2,11 +2,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import { RestaurantFormData } from "@/pages/manage-restaurant/components/ManageRestaurantForm";
-import { errorCatch } from "../utils";
+import { errorCatch, menuItemsWithIntPrice, priceToInt } from "../utils";
 import { RESTAURANT_ROUTE } from "../consts";
 import { Restaurant } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+
+const generateFormDataDto = (formData: RestaurantFormData) => {
+  const menuItems = menuItemsWithIntPrice(formData.menuItems);
+  const formDataDto = {
+    ...formData,
+    menuItems,
+    deliveryPrice: priceToInt(formData.deliveryPrice),
+    estimatedDeliveryTime: formData.estimatedDeliveryTime,
+    cuisines: formData.cuisines,
+    imageUrl: formData.imageUrl,
+  };
+  return JSON.stringify(formDataDto);
+};
 
 export const useGetMyRestaurant = () => {
   const { getAccessTokenSilently, user } = useAuth0();
@@ -15,8 +28,8 @@ export const useGetMyRestaurant = () => {
       throw new Error("user object was not defined");
     }
     const accessToken = await getAccessTokenSilently();
-    const id = encodeURIComponent(user.sub);
-    const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}/${id}`, {
+    const auth0Id = encodeURIComponent(user.sub);
+    const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}/${auth0Id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -28,18 +41,20 @@ export const useGetMyRestaurant = () => {
     }
     return res.json();
   };
-  const { data: fetchedUser, isLoading, error } = useQuery("getMyRestaurant", getMyRestaurantReq);
+  const {
+    data: fetchedRestaurant, isLoading, isError, error,
+  } = useQuery("getMyRestaurant", getMyRestaurantReq);
   if (error) {
     toast.error(errorCatch(error));
   }
   return {
-    user: fetchedUser, isLoading,
+    restaurant: fetchedRestaurant, isLoading, isError, error,
   };
 };
 
 export const useCreateMyRestaurant = () => {
   const { getAccessTokenSilently } = useAuth0();
-  const createMyRestaurantReq = async (user: RestaurantFormData) => {
+  const createMyRestaurantReq = async () => {
     const accessToken = await getAccessTokenSilently();
     const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}`, {
       method: "POST",
@@ -47,10 +62,9 @@ export const useCreateMyRestaurant = () => {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
     });
     if (!res.ok) {
-      throw new Error("failed to create restaurant");
+      throw new Error("Failed to create restaurant");
     }
   };
   const {
@@ -63,38 +77,36 @@ export const useCreateMyRestaurant = () => {
 
 export const useUpdateMyRestaurant = () => {
   const { getAccessTokenSilently, user } = useAuth0();
-  const updateMyRestaurantReq = async (formData: RestaurantFormData) => {
+  const createMyRestaurantReq = async (formData: RestaurantFormData) => {
     if (!user?.sub) {
       throw new Error("user object was not defined");
     }
     const accessToken = await getAccessTokenSilently();
-    const id = encodeURIComponent(user.sub);
-    const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}/${id}`, {
-      method: "PATCH",
+    const body = generateFormDataDto(formData);
+    const auth0Id = encodeURIComponent(user.sub);
+    const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}/${auth0Id}`, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body,
     });
     if (!res.ok) {
-      throw new Error("failed to update user");
+      throw new Error("failed to update restaurant");
     }
   };
   const {
-    mutateAsync: updateUser,
-    isLoading,
-    isSuccess,
-    error,
-  } = useMutation(updateMyRestaurantReq);
+    mutateAsync: updateMyRestaurant, isLoading, error, isSuccess,
+  } = useMutation(createMyRestaurantReq);
   if (isSuccess) {
-    toast.success("User profile updated!");
+    toast.success("Restaurant updated!");
   }
   if (error) {
     toast.error(errorCatch(error));
   }
   return {
-    updateUser,
+    updateMyRestaurant,
     isLoading,
     isSuccess,
   };

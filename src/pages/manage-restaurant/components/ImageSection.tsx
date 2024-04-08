@@ -8,6 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/common/shadcn/input";
 import { useUploadToCloudinary } from "@/lib/api/CloudinaryApi";
+import { AspectRatio } from "@/components/ui/common/shadcn/aspect-ratio";
 import { RestaurantFormData } from "./ManageRestaurantForm";
 import formStyles from "./FormStyles.module.css";
 
@@ -22,14 +23,24 @@ function ImageSection() {
           Image
         </h2>
         <FormDescription className="text-black">
-          Add an image that will be displayed on your restaurant listing in the ChowTown index. Adding a new image will overwrite the existing one. Recommended dimensions:
+          Add an image that will be displayed on your restaurant listing in the ChowTown index. Adding a new image will overwrite the existing one.
+          {" "}
+          <br />
+          Recommended dimensions:
+          {" "}
+          <span className="underline">
+            640x360
+          </span>
         </FormDescription>
       </div>
       <div className={cn(formStyles.fields, "flex flex-col gap-8 w-[50%]")}>
-        <img
-          src={preview}
-          alt="Your restaurant"
-        />
+        <AspectRatio ratio={16 / 9}>
+          <img
+            src={preview}
+            alt="Your restaurant's logo"
+            className="rounded-md object-cover h-full w-full"
+          />
+        </AspectRatio>
         <FormField
           control={control}
           name="imageUrl"

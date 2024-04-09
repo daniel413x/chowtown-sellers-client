@@ -17,6 +17,7 @@ const generateFormDataDto = (formData: RestaurantFormData) => {
     estimatedDeliveryTime: formData.estimatedDeliveryTime,
     cuisines: formData.cuisines,
     imageUrl: formData.imageUrl,
+    isActivatedByUser: formData.isActivatedByUser,
   };
   return JSON.stringify(formDataDto);
 };
@@ -56,6 +57,8 @@ export const useCreateMyRestaurant = () => {
   const { getAccessTokenSilently } = useAuth0();
   const createMyRestaurantReq = async () => {
     const accessToken = await getAccessTokenSilently();
+    // there is no body because a restaurant is enthusiastically created in the backend
+    // with default values upon user registration
     const res = await fetch(`${API_BASE_URL}/${RESTAURANT_ROUTE}`, {
       method: "POST",
       headers: {
@@ -77,7 +80,7 @@ export const useCreateMyRestaurant = () => {
 
 export const useUpdateMyRestaurant = () => {
   const { getAccessTokenSilently, user } = useAuth0();
-  const createMyRestaurantReq = async (formData: RestaurantFormData) => {
+  const updateMyRestaurantReq = async (formData: RestaurantFormData) => {
     if (!user?.sub) {
       throw new Error("user object was not defined");
     }
@@ -98,7 +101,7 @@ export const useUpdateMyRestaurant = () => {
   };
   const {
     mutateAsync: updateMyRestaurant, isLoading, error, isSuccess,
-  } = useMutation(createMyRestaurantReq);
+  } = useMutation(updateMyRestaurantReq);
   if (isSuccess) {
     toast.success("Restaurant updated!");
   }

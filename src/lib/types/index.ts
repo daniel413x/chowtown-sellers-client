@@ -20,4 +20,5 @@ export interface Restaurant {
   cuisines: string[];
   menuItems: MenuItem[];
   lastUpdated: string;
+  isActivatedByUser: boolean;
 }

@@ -16,6 +16,7 @@ import CuisinesSection from "./CuisinesSection";
 import MenuItemsSection from "./MenuItemsSection";
 import formStyles from "./FormStyles.module.css";
 import ImageSection from "./ImageSection";
+import SettingsSection from "./SettingsSection";
 
 const formSchema = z.object({
   restaurantName: z.string().min(1, {
@@ -41,6 +42,7 @@ const formSchema = z.object({
   cuisines: z.array(z.string()).nonempty({
     message: "Cuisines are required",
   }),
+  isActivatedByUser: z.boolean(),
   menuItems: z.array(z.object({
     name: z.string().min(1, {
       message: "Name is required",
@@ -76,6 +78,7 @@ function ManageRestaurantForm({
       country: "United States",
       deliveryPrice: 10,
       estimatedDeliveryTime: 30,
+      isActivatedByUser: false,
     },
   });
   const { handleSubmit } = form;
@@ -94,6 +97,7 @@ function ManageRestaurantForm({
       country: restaurant.country,
       deliveryPrice,
       estimatedDeliveryTime: restaurant.estimatedDeliveryTime,
+      isActivatedByUser: restaurant.isActivatedByUser,
     };
     form.reset(latestRestaurant);
   }, [form, restaurant]);
@@ -103,7 +107,7 @@ function ManageRestaurantForm({
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-8 p-10 rounded-lg "
+        className="space-y-8 md:p-10 rounded-lg "
       >
         <div className="flex space-between items-center">
           <h1 className={cn(formStyles.sectionHeader, "flex-1")}>
@@ -118,6 +122,8 @@ function ManageRestaurantForm({
         <MenuItemsSection />
         <Separator />
         <ImageSection />
+        <Separator />
+        <SettingsSection />
         {isLoading ? (
           <LoadingButton />
         ) : (

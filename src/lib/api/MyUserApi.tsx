@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import { errorCatch } from "../utils";
-import { MANAGER_ROUTE } from "../consts";
+import { USER_ROUTE } from "../consts";
 import { User } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
@@ -15,7 +15,7 @@ export const useGetMyUser = () => {
     }
     const accessToken = await getAccessTokenSilently();
     const id = encodeURIComponent(user.sub);
-    const res = await fetch(`${API_BASE_URL}/${MANAGER_ROUTE}/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -45,7 +45,7 @@ export const useCreateMyUser = () => {
   const { getAccessTokenSilently } = useAuth0();
   const createMyUserReq = async (user: CreateUserReq) => {
     const accessToken = await getAccessTokenSilently();
-    const res = await fetch(`${API_BASE_URL}/${MANAGER_ROUTE}`, {
+    const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -80,7 +80,7 @@ export const useUpdateMyUser = () => {
     }
     const accessToken = await getAccessTokenSilently();
     const id = encodeURIComponent(user.sub);
-    const res = await fetch(`${API_BASE_URL}/${MANAGER_ROUTE}/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/${USER_ROUTE}/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${accessToken}`,

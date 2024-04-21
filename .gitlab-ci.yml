@@ -8,7 +8,7 @@ stages:
   - test_production
 
 variables:
-  PROJECT_GROUP: chowtown-managers
+  PROJECT_GROUP: chowtown-cms
   SERVICE_NAME: client
   PRODUCTION_VERSION: "1.0.0"
 

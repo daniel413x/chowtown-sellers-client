@@ -1,15 +1,16 @@
 export interface User {
-  _id: string;
+  id: string;
   email: string;
 }
 
 export interface MenuItem {
   name: string;
   price: number;
+  id?: string;
 }
 
 export interface Restaurant {
-  _id: string;
+  id: string;
   userId: string;
   restaurantName: string;
   imageUrl: string;

@@ -44,6 +44,7 @@ const formSchema = z.object({
   }),
   isActivatedByUser: z.boolean(),
   menuItems: z.array(z.object({
+    id: z.string().optional(),
     name: z.string().min(1, {
       message: "Name is required",
     }),

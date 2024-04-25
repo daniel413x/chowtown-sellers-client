@@ -1,13 +1,6 @@
+import queryClient from "@/lib/api/queryClient";
 import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider as QueryClientProviderWrapper } from "react-query";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+import { QueryClientProvider as QueryClientProviderWrapper } from "react-query";
 
 interface QueryClientProviderProps {
   children: ReactNode;

@@ -5,8 +5,10 @@ import { RestaurantFormData } from "@/pages/manage-restaurant/components/ManageR
 import { errorCatch, menuItemsWithIntPrice, priceToInt } from "../utils";
 import { RESTAURANT_ROUTE } from "../consts";
 import { Restaurant } from "../types";
+import queryClient from "./queryClient";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+const GET_MY_RESTAURANT = "getMyRestaurant";
 
 const generateFormDataDto = (formData: RestaurantFormData) => {
   const menuItems = menuItemsWithIntPrice(formData.menuItems);
@@ -44,7 +46,7 @@ export const useGetMyRestaurant = () => {
   };
   const {
     data: fetchedRestaurant, isLoading, isError, error,
-  } = useQuery("getMyRestaurant", getMyRestaurantReq);
+  } = useQuery(GET_MY_RESTAURANT, getMyRestaurantReq);
   if (error) {
     toast.error(errorCatch(error));
   }
@@ -101,7 +103,11 @@ export const useUpdateMyRestaurant = () => {
   };
   const {
     mutateAsync: updateMyRestaurant, isLoading, error, isSuccess,
-  } = useMutation(updateMyRestaurantReq);
+  } = useMutation(updateMyRestaurantReq, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(GET_MY_RESTAURANT);
+    },
+  });
   if (isSuccess) {
     toast.success("Restaurant updated!");
   }

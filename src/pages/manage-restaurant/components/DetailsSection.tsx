@@ -33,6 +33,7 @@ function DetailsSection() {
                 <Input
                   {...field}
                   className="bg-white"
+                  data-testid="restaurant-form-name-field"
                 />
               </FormControl>
               <FormMessage />

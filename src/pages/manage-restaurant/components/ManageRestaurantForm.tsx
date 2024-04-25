@@ -29,7 +29,7 @@ const formSchema = z.object({
     message: "City is required",
   }),
   country: z.string().min(1, {
-    message: "City is required",
+    message: "Country is required",
   }),
   deliveryPrice: z.coerce.number({
     required_error: "Delivery price is required",
@@ -130,6 +130,7 @@ function ManageRestaurantForm({
         ) : (
           <Button
             type="submit"
+            data-testid="restaurant-form-submit-btn"
           >
             Submit
           </Button>

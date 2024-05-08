@@ -19,12 +19,12 @@ function RootPage() {
       className="flex flex-1 relative"
     >
       <div
-        className="opacity-25 w-full bg-no-repeat bg-cover bg-center"
+        className="opacity-50 w-full bg-no-repeat bg-cover bg-center"
         style={{ backgroundImage: `url(${img})` }}
       />
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border-amber-600 border-2 px-10 py-2 h-max">
         <Button
-          className="font-bold hover:text-orange-500 hover:bg-white"
+          className="font-bold hover:text-orange-400 hover:bg-white"
           variant="ghost"
           onClick={async () => {
             await loginWithRedirect();

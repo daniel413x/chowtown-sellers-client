@@ -2,8 +2,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {
   Link, useLocation,
 } from "react-router-dom";
-import { MANAGE_RESTAURANT_ROUTE, REPORT_ROUTE } from "@/lib/consts";
-import { Building, ReceiptPoundSterling } from "lucide-react";
+import { MANAGE_RESTAURANT_ROUTE, ORDERS_ROUTE, REPORT_ROUTE } from "@/lib/consts";
+import {
+  Building, Car, ReceiptPoundSterling,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -16,6 +18,11 @@ const links = [
     to: `/${MANAGE_RESTAURANT_ROUTE}`,
     label: "Restaurant",
     icon: <Building className="w-4 h-4" />,
+  },
+  {
+    to: `/${ORDERS_ROUTE}`,
+    label: "Orders",
+    icon: <Car className="w-4 h-4" />,
   },
 ];
 

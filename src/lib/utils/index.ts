@@ -8,11 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 
 export const priceToInt = (val: number | string) => Number(val) * 100;
 
-export const intToPrice = (val: number | string) => Number((Number(val) * 0.01).toFixed(2));
+export const intToPrice = (val: number | string) => Number((Number(val) * 0.01)).toFixed(2);
 
 export const menuItemsWithDecimalPrice = (menuItems: MenuItem[]) => menuItems.map((item) => ({
   ...item,
-  price: intToPrice(item.price),
+  price: Number(intToPrice(item.price)),
 }));
 
 export const menuItemsWithIntPrice = (menuItems: MenuItem[]) => menuItems.map((item) => ({

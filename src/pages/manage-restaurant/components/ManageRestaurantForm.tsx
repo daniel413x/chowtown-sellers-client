@@ -96,7 +96,7 @@ function ManageRestaurantForm({
       imageUrl: restaurant.imageUrl,
       city: restaurant.city,
       country: restaurant.country,
-      deliveryPrice,
+      deliveryPrice: Number(deliveryPrice),
       estimatedDeliveryTime: restaurant.estimatedDeliveryTime,
       isActivatedByUser: restaurant.isActivatedByUser,
     };

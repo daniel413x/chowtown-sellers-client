@@ -1,8 +1,15 @@
 import LoadingSpinner from "@/components/ui/common/LoadingSpinner";
-import { Card, CardHeader, CardTitle } from "@/components/ui/common/shadcn/card";
+import { Badge } from "@/components/ui/common/shadcn/badge";
+import {
+  Card, CardContent, CardHeader, CardTitle,
+} from "@/components/ui/common/shadcn/card";
+import { Label } from "@/components/ui/common/shadcn/label";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/common/shadcn/select";
 import { Separator } from "@/components/ui/common/shadcn/separator";
-import { useGetOrderUser } from "@/lib/api/OrdersApi";
-import { Order } from "@/lib/types";
+import { useGetOrderUser, useUpdateOrderStatus } from "@/lib/api/OrdersApi";
+import { Order, Status } from "@/lib/types";
 import { intToPrice } from "@/lib/utils";
 import { format } from "date-fns";
 import { ReactNode } from "react";
@@ -26,6 +33,40 @@ function HeaderCol({
   );
 }
 
+type OrderStatusInfo = {
+    label: string;
+    value: Status;
+    progressValue: number;
+}
+
+export const orderStatus: OrderStatusInfo[] = [
+  {
+    label: "Placed",
+    value: Status.PLACED,
+    progressValue: 0,
+  },
+  {
+    label: "Awaiting restaurant confirmation",
+    value: Status.PAID,
+    progressValue: 25,
+  },
+  {
+    label: "In progress",
+    value: Status.IN_PROGRESS,
+    progressValue: 50,
+  },
+  {
+    label: "Out for delivery",
+    value: Status.OUT_FOR_DELIVERY,
+    progressValue: 75,
+  },
+  {
+    label: "Delivered",
+    value: Status.DELIVERED,
+    progressValue: 100,
+  },
+];
+
 interface OrderItemCardProps {
   order: Order;
 }
@@ -37,6 +78,10 @@ function OrderItemCard({
     user,
     isLoading: isLoadingUser,
   } = useGetOrderUser(order.userId);
+  const {
+    updateOrderStatus,
+  } = useUpdateOrderStatus();
+  const currentStatus = orderStatus.find((status) => status.value === order.status);
   const time = () => format(order.createdAt, "h:mm a (MMM d, yyyy)");
   return (
     <Card>
@@ -65,6 +110,45 @@ function OrderItemCard({
         </CardTitle>
         <Separator />
       </CardHeader>
+      <CardContent className="flex flex-col gap-6">
+        <ul className="flex flex-col gap-2">
+          {order.cartItems.map((item) => (
+            <li key={item.id}>
+              <div className="">
+                <Badge variant="outline" className="mr-2">
+                  {item.quantity}
+                </Badge>
+                <span className="text-sm uppercase">
+                  {item.name}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="space-y-1">
+          <Label htmlFor="status">
+            What is the status of this order?
+          </Label>
+          <Select
+            onValueChange={(status: Status) => updateOrderStatus({
+              orderId: order.id,
+              status,
+            })}
+            defaultValue={currentStatus?.value}
+          >
+            <SelectTrigger id="status">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              {orderStatus.map((status) => (
+                <SelectItem key={status.value} value={status.value}>
+                  {status.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </CardContent>
     </Card>
   );
 }

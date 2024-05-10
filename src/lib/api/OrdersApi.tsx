@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 import { errorCatch } from "../utils";
 import { ORDERS_ROUTE } from "../consts";
-import { CustomerUser, OrdersGETManyRes } from "../types";
+import { CustomerUser, OrdersGETManyRes, Status } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -67,5 +67,47 @@ export const useGetOrderUser = (userId: string) => {
   }
   return {
     user: fetchedUser, isLoading, isError, error,
+  };
+};
+
+export type UpdateOrderStatusReq = {
+  status: Status;
+  orderId: string;
+};
+
+export const useUpdateOrderStatus = () => {
+  const { getAccessTokenSilently, user } = useAuth0();
+  const updateOrderStatusReq: (data: UpdateOrderStatusReq) => Promise<void> = async (data: UpdateOrderStatusReq) => {
+    if (!user?.sub) {
+      throw new Error("User object was not defined");
+    }
+    const accessToken = await getAccessTokenSilently();
+    const encodedId = encodeURIComponent(data.orderId);
+    const body = JSON.stringify({
+      status: data.status,
+    });
+    const res = await fetch(`${API_BASE_URL}/${ORDERS_ROUTE}/${encodedId}/status`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    if (!res.ok) {
+      throw new Error("Failed to get update status");
+    }
+  };
+  const {
+    mutateAsync: updateOrderStatus, isSuccess, isLoading, isError, error,
+  } = useMutation(updateOrderStatusReq);
+  if (isSuccess) {
+    toast.message("Order status updated!");
+  }
+  if (isError) {
+    toast.error(errorCatch(error));
+  }
+  return {
+    updateOrderStatus, isLoading, isError, error,
   };
 };

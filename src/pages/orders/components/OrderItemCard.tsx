@@ -12,7 +12,7 @@ import { useGetOrderUser } from "@/lib/api/OrdersApi";
 import { Order, Status } from "@/lib/types";
 import { intToPrice } from "@/lib/utils";
 import { format } from "date-fns";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import ChangeStatusModal from "./ChangeStatusModal";
 
 interface HeaderColProps {

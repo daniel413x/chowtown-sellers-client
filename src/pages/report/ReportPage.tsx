@@ -1,8 +1,12 @@
+import Meta from "@/components/misc/Meta";
+
 function ReportPage() {
   return (
-    <div>
-      Report page
-    </div>
+    <Meta title="Your Restaurant Report">
+      <div>
+        Report page
+      </div>
+    </Meta>
   );
 }
 

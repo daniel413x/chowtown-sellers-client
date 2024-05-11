@@ -1,4 +1,5 @@
 import { useGetMyRestaurant, useUpdateMyRestaurant } from "@/lib/api/MyRestaurantApi";
+import Meta from "@/components/misc/Meta";
 import ManageRestaurantForm from "./components/ManageRestaurantForm";
 
 function ManageRestaurantPage() {
@@ -22,11 +23,13 @@ function ManageRestaurantPage() {
     return null;
   }
   return (
-    <ManageRestaurantForm
-      restaurant={restaurant}
-      updateMyRestaurant={updateMyRestaurant}
-      isLoading={isLoadingPUT}
-    />
+    <Meta title={`Manage My Restaurant | ${restaurant.restaurantName}`}>
+      <ManageRestaurantForm
+        restaurant={restaurant}
+        updateMyRestaurant={updateMyRestaurant}
+        isLoading={isLoadingPUT}
+      />
+    </Meta>
   );
 }
 

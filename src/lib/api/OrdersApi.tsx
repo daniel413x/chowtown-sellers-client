@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { errorCatch } from "../utils";
 import { ORDERS_ROUTE } from "../consts";
 import { CustomerUser, OrdersGETManyRes, Status } from "../types";
+import queryClient from "./queryClient";
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -97,13 +98,15 @@ export const useUpdateOrderStatus = () => {
     if (!res.ok) {
       throw new Error("Failed to get update status");
     }
+    toast.message("Order status updated!");
   };
   const {
-    mutateAsync: updateOrderStatus, isSuccess, isLoading, isError, error,
-  } = useMutation(updateOrderStatusReq);
-  if (isSuccess) {
-    toast.message("Order status updated!");
-  }
+    mutateAsync: updateOrderStatus, isLoading, isError, error,
+  } = useMutation(updateOrderStatusReq, {
+    onSuccess: (() => {
+      queryClient.invalidateQueries(GET_RESTAURANT_ORDERS);
+    }),
+  });
   if (isError) {
     toast.error(errorCatch(error));
   }

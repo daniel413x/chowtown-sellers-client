@@ -18,7 +18,7 @@ function ReportPage() {
       <main className="md:p-10">
         <div className="flex space-between items-center mb-10">
           <h1 className="text-2xl font-bold flex-1">
-            My Report
+            Restaurant report
           </h1>
           <DollarSign />
         </div>

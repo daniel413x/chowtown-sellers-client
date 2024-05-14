@@ -1,6 +1,7 @@
 import { useGetMyRestaurant, useUpdateMyRestaurant } from "@/lib/api/MyRestaurantApi";
 import Meta from "@/components/misc/Meta";
 import ManageRestaurantForm from "./components/ManageRestaurantForm";
+import ManageRestaurantFormSkeleton from "./components/ManageRestaurantFormSkeleton";
 
 function ManageRestaurantPage() {
   const {
@@ -15,7 +16,7 @@ function ManageRestaurantPage() {
   } = useUpdateMyRestaurant();
   if (!restaurant) {
     if (isLoadingGET) {
-      return <>Loading...</>;
+      return <ManageRestaurantFormSkeleton />;
     }
     if (isError || error) {
       return <>Error...</>;

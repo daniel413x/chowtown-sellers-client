@@ -112,7 +112,7 @@ function ManageRestaurantForm({
       >
         <div className="flex space-between items-center">
           <h1 className={cn(formStyles.sectionHeader, "flex-1")}>
-            My Restaurant
+            {restaurant.restaurantName}
           </h1>
           <Settings />
         </div>

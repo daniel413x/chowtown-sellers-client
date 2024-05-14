@@ -29,7 +29,7 @@ function ImageSection() {
           Recommended dimensions:
           {" "}
           <span className="underline">
-            640x360
+            1600x400
           </span>
         </FormDescription>
       </div>

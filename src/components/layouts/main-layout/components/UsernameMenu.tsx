@@ -21,7 +21,11 @@ function UsernameMenu() {
         <DropdownMenuItem>
           <Button
             className="flex flex-1 font-bold bg-orange-500"
-            onClick={() => logout()}
+            onClick={() => logout({
+              logoutParams: {
+                returnTo: import.meta.env.VITE_AUTH0_REDIRECT_URI,
+              },
+            })}
           >
             Log out
           </Button>

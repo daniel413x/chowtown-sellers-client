@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import { MANAGE_RESTAURANT_ROUTE, ORDERS_ROUTE, REPORT_ROUTE } from "@/lib/consts";
 import {
-  Building, Car, ReceiptPoundSterling,
+  Building, Car, ReceiptCent,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ const links = [
   {
     to: `/${REPORT_ROUTE}`,
     label: "Reportings",
-    icon: <ReceiptPoundSterling className="w-4 h-4" />,
+    icon: <ReceiptCent className="w-4 h-4" />,
   },
   {
     to: `/${MANAGE_RESTAURANT_ROUTE}`,
@@ -22,7 +22,7 @@ const links = [
   {
     to: `/${ORDERS_ROUTE}`,
     label: "Orders",
-    icon: <Car className="w-4 h-4" />,
+    icon: <Car strokeWidth={2.25} className="w-4 h-4" />,
   },
 ];
 
@@ -48,9 +48,9 @@ function MainNav({
           <Link
             to={to}
             // don't resize parent
-            className={cn(`relative group flex items-center gap-1 py-${py} -my-${py} px-3.5 rounded-md w-full`, {
+            className={cn(`font-semibold relative group flex items-center gap-1 py-${py} -my-${py} px-3.5 rounded-md w-full`, {
               "bg-orange-500 text-white": to === pathname,
-              "text-gray-700 hover:bg-orange-500 hover:text-white": to !== pathname,
+              "text-black hover:text-orange-500": to !== pathname,
             })}
           >
             {icon}

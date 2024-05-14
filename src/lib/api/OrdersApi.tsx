@@ -27,7 +27,11 @@ export const useGetRestaurantOrders = () => {
     if (!res.ok) {
       throw new Error("Failed to get orders");
     }
-    return res.json();
+    const fakeDelay = new Promise((resolve) => {
+      setTimeout(resolve, 1250);
+    });
+    const results = await Promise.all([res, fakeDelay]);
+    return results[0].json();
   };
   const {
     data: fetchedOrders, isLoading, isError, error,

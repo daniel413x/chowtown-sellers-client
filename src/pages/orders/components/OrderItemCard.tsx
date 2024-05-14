@@ -13,6 +13,7 @@ import { Order, Status } from "@/lib/types";
 import { intToPrice } from "@/lib/utils";
 import { format } from "date-fns";
 import { ReactNode, useState } from "react";
+import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import ChangeStatusModal from "./ChangeStatusModal";
 
 interface HeaderColProps {
@@ -168,6 +169,34 @@ function OrderItemCard({
         </CardContent>
       </Card>
     </>
+  );
+}
+
+export function OrderItemCardSkeleton() {
+  return (
+    <div className="flex flex-col space-between p-6 md:h-[240px]">
+      <div className="grid md:grid-cols-4 gap-4 md:gap-0">
+        <Skeleton className="h-9 w-24" />
+        <Skeleton className="h-9 w-24" />
+        <Skeleton className="h-9 w-24" />
+        <Skeleton className="h-9 w-24" />
+      </div>
+      <Skeleton className="h-[1px] w-full mt-4" />
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
+          <Skeleton className="h-4 w-5 mt-4" />
+          <Skeleton className="h-4 w-20 mt-4" />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton className="h-4 w-5 mt-4" />
+          <Skeleton className="h-4 w-20 mt-4" />
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <Skeleton className="h-4 w-[14rem] mt-4" />
+        <Skeleton className="h-7 w-full mt-2" />
+      </div>
+    </div>
   );
 }
 

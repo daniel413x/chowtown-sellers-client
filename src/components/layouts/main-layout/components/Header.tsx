@@ -10,7 +10,7 @@ function Header() {
   const { isAuthenticated } = useAuth0();
   return (
     <div
-      className="border-b-2 border-b-orange-500 py-6 bg-white"
+      className="border-b-2 border-b-orange-500 py-6 bg-white h-[86px]"
     >
       <div className="container flex mx-auto justify-between items-center">
         <Link

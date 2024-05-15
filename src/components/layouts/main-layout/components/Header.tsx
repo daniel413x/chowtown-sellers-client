@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo-standard.png";
 import { useAuth0 } from "@auth0/auth0-react";
+import { REPORT_ROUTE } from "@/lib/consts";
 import MobileNav from "./MobileNav";
 import MainNav from "./MainNav";
 import UsernameMenu from "./UsernameMenu";
@@ -14,7 +15,7 @@ function Header() {
       <div className="container flex mx-auto justify-between items-center">
         <Link
           className="text-3xl font-bold tracking-light text-orange-500 flex-grow flex-shrink-0 basis-auto"
-          to="/"
+          to={isAuthenticated ? `/${REPORT_ROUTE}` : "/"}
         >
           <img
             src={logo}

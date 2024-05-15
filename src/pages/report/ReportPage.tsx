@@ -3,6 +3,7 @@ import { useGetRestaurantOrders } from "@/lib/api/OrdersApi";
 import {
   DollarSign,
 } from "lucide-react";
+import PageHeader from "@/components/ui/common/PageHeader";
 import SalesInformation, { SalesInformationSkeleton } from "./components/SalesInformation";
 import MenuItemsSales, { MenuItemsSalesSkeleton } from "./components/MenuItemsSales";
 import MonthlySales, { MonthlySalesSkeleton } from "./components/MonthlySales";
@@ -16,12 +17,7 @@ function ReportPage() {
   return (
     <Meta title="Your Restaurant Report">
       <main className="md:p-10">
-        <div className="flex space-between items-center mb-10">
-          <h1 className="text-2xl font-bold flex-1">
-            Restaurant report
-          </h1>
-          <DollarSign />
-        </div>
+        <PageHeader header="Orders" isLoading={isLoading} icon={<DollarSign />} />
         {isLoading ? (
           <>
             <MonthlySalesSkeleton />

@@ -1,3 +1,4 @@
+import PageHeader from "@/components/ui/common/PageHeader";
 import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
@@ -6,9 +7,7 @@ export function ManageRestaurantFormSkeleton() {
     <div
       className="space-y-8 md:p-10 rounded-lg"
     >
-      <div className="h-[32px]">
-        <Skeleton className="w-24 h-full" />
-      </div>
+      <PageHeader isLoading header="" />
       {/* overview section */}
       <div>
         <div className="flex flex-col h-[51.2px]">

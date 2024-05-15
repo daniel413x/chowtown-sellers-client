@@ -4,7 +4,7 @@ import {
 } from "lucide-react";
 import Meta from "@/components/misc/Meta";
 import { useEffect, useState } from "react";
-import { Skeleton } from "@/components/ui/common/shadcn/skeleton";
+import PageHeader from "@/components/ui/common/PageHeader";
 import OrderItemCard, { OrderItemCardSkeleton } from "./components/OrderItemCard";
 
 function OrdersPage() {
@@ -24,18 +24,7 @@ function OrdersPage() {
   return (
     <Meta title="Orders">
       <main className="p-10">
-        <div className="flex space-between items-center mb-10">
-          <h1 className="text-2xl font-bold flex-1">
-            {isLoadingGET ? (
-              <Skeleton
-                className="w-24 h-8 flex-1"
-              />
-            ) : (
-              "Orders"
-            )}
-          </h1>
-          <ComputerIcon />
-        </div>
+        <PageHeader header="Orders" isLoading={isLoadingGET} icon={<ComputerIcon />} />
         <ul className="flex flex-col gap-5">
           {!isLoadingGET ? null : Array.from({ length: 3 }).map((_, i) => (
             // eslint-disable-next-line react/no-array-index-key

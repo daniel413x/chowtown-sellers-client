@@ -8,13 +8,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/common/shadcn/separator";
 import { Settings } from "lucide-react";
-import { cn, intToPrice, menuItemsWithDecimalPrice } from "@/lib/utils";
+import { intToPrice, menuItemsWithDecimalPrice } from "@/lib/utils";
 import { Restaurant } from "@/lib/types";
 import { useEffect } from "react";
+import PageHeader from "@/components/ui/common/PageHeader";
 import DetailsSection from "./DetailsSection";
 import CuisinesSection from "./CuisinesSection";
 import MenuItemsSection from "./MenuItemsSection";
-import formStyles from "./FormStyles.module.css";
 import ImageSection from "./ImageSection";
 import SettingsSection from "./SettingsSection";
 
@@ -110,12 +110,10 @@ function ManageRestaurantForm({
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-8 md:p-10 rounded-lg "
       >
-        <div className="flex space-between items-center">
-          <h1 className={cn(formStyles.sectionHeader, "flex-1")}>
-            {restaurant.restaurantName}
-          </h1>
-          <Settings />
-        </div>
+        <PageHeader
+          header={restaurant.restaurantName}
+          icon={<Settings />}
+        />
         <DetailsSection />
         <Separator />
         <CuisinesSection />
